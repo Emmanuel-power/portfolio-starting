@@ -1,0 +1,22 @@
+body{
+    background: #FAEBD7;
+    color: black
+
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.logo{
+    margin-top: 30px;
+    margin-left: 100px;
+}
+
+.nav-bar{
+    background: F0F8FF;
+    color: whitesmoke;
+    text-align: end;
+    margin-left: 700px;
+    padding: 5px
+}
