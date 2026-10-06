@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostSearch, { type PostSummary } from '../components/PostSearch';
+import { SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
+import { countTags, getPublishedPosts, readingTime, url } from '../lib/posts';
+
+const posts = await getPublishedPosts();
+const summaries: PostSummary[] = posts.map((post) => ({
+  title: post.data.title,
+  description: post.data.description,
+  href: url(`blog/${post.id}/`),
+  date: post.data.pubDate.toISOString(),
+  readingTime: readingTime(post.body),
+  tags: post.data.tags,
+  draft: post.data.draft,
+}));
+const tags = countTags(posts).map(([tag]) => tag);
+---
+<BaseLayout>
+  <section class="mb-12">
+    <p class="font-mono text-sm text-accent-600 dark:text-accent-400">~/tech-journey $</p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-100">{SITE_TAGLINE}</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{SITE_DESCRIPTION}</p>
+  </section>
+  <PostSearch client:load posts={summaries} tags={tags} />
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+title: How I built this blog with Astro, React and TypeScript
+description: The stack behind this site, and why each piece is there.
+pubDate: 2026-10-06
+tags: [astro, react, typescript, web]
+---
+
+import Callout from '../../components/Callout.astro';
+
+I wanted a blog that's fast, cheap to host (free, ideally) and easy to write for.
+Here's the stack I landed on.
+
+## The stack
+
+| Tool | What it does here |
+| --- | --- |
+| **Astro** | Builds every page to plain HTML ahead of time, so pages load instantly |
+| **React** | Powers the interactive bits: search, tag filters and the theme toggle |
+| **TypeScript** | Catches mistakes before they reach readers |
+| **MDX** | Lets me use components, like the callout below, inside posts |
+| **Tailwind CSS** | Styling, plus the typography plugin for readable articles |
+| **GitHub Pages** | Free hosting, deployed automatically on every push |
+
+<Callout type="tip" title="Islands, not a single-page app">
+  Astro ships zero JavaScript by default. Only the React components marked with a
+  `client:` directive are hydrated in the browser, so posts stay lightweight.
+</Callout>
+
+## Type-safe posts
+
+Every post's frontmatter is checked by a schema. If I forget a description or
+mistype a date, the build fails instead of publishing a broken page:
+
+```ts
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+```
+
+## Publishing
+
+Pushing to `main` runs a GitHub Action that builds the site and deploys it to GitHub
+Pages. Writing a new post is just: create a file, write, commit, push.
+
+<Callout type="note">
+  Setting `draft: true` in a post's frontmatter keeps it off the live site while I'm
+  still working on it. Drafts still show up locally with `npm run dev`.
+</Callout>
