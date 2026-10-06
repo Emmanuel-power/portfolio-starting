@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR, GITHUB_URL } from '../consts';
+---
+<BaseLayout title="About" description={`About ${AUTHOR} and this blog.`}>
+  <div class="prose prose-zinc max-w-none dark:prose-invert prose-a:text-accent-600 dark:prose-a:text-accent-400">
+    <h1>About</h1>
+    <p>
+      Hi, I'm {AUTHOR}. This blog is my public notebook: I write down what I'm learning,
+      the projects I'm building, and the bugs that took me far too long to fix.
+    </p>
+    <p>
+      Writing in public keeps me honest about what I actually understand, and maybe it
+      saves someone else a few hours along the way.
+    </p>
+    <h2>What you'll find here</h2>
+    <ul>
+      <li>Things I learned this week, explained in my own words</li>
+      <li>Build logs from side projects</li>
+      <li>Tools, setups and workflows I've found useful</li>
+    </ul>
+    <h2>Say hello</h2>
+    <p>You can find my code on <a href={GITHUB_URL}>GitHub</a>.</p>
+  </div>
+</BaseLayout>
